@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>title</title>
+        <!--
+        <link rel="stylesheet" href="style.css">
+        -->
+    </head>
+    <body>
+        <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+        <script type="text/javascript" src="js/omh.js"></script>
+
+        <script type="text/javascript">
+            omh.init("https://showcase.omh.io","ohmageEasyPost")
+            omh.authenticate("marc.ideasphere","Marc.12345",{
+                success:function(){
+                    omh.read({
+                        owner:"ohmage.josh",
+                        payload_id:"omh:ginger_io",
+                        payload_version:"1",
+                        success:function(res){
+                            console.log("read response",res)
+                        }})
+                }
+            })
+        </script> 
+    </body>
+</html>

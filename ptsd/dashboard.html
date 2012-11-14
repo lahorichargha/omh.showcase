@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>PTSD Dashboard</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" media="screen" href="css/ptsd.css">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+
+  </head>
+  <body>
+    <div class="templates">
+      <div class="dataStack">
+        <div class="stackLabel">
+          Hi
+        </div>
+      </div>
+      <div class="dataBarInfoDisplay">
+        <div class="date"></div>
+        <hr/>
+        <div class="values"></div>
+      </div>
+
+    </div>
+
+    <!--
+    <div class="page expanded">
+    -->
+    <div class="page">
+
+      <div class="ctrl">
+
+      </div>
+
+      <div class="prog">
+        <div class="label">Loading...</div>
+        <img class="loadingBar" src="images/loading_bar_animated.gif"/>
+      </div>
+
+      <div class="expander">Date-Expand</div>
+      <h1>PTSD Explorer 2.0<span class="signOut">Sign Out</span></h1>
+      <h2 class="patient">Patient</h2>
+      <h3 class="dateRange">Date Range: <span class="val">7/28/2012 - 8/28/2012</span></h3>
+      <div class="dateSelector">
+        <div class="slider start">
+          <div class="handle">
+          </div>
+        </div>
+        <div class="slider end">
+          <div class="handle">
+          </div>
+        </div>
+      </div>
+
+      <div class="dataStacks">
+        <div class="endDateLabel">
+          8/28/2012
+        </div>
+        <div class="startDateLabel">
+          7/28/2012
+        </div>
+
+        <div class="infoDisplay">
+        </div>
+      </div>
+      <div style="clear: both"></div>
+      <br/>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="js/omh.js"></script>
+    <script type="text/javascript" src="js/date-format.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/jq-color.js"></script>
+    <script type="text/javascript" src="js/ptsd.js"></script>
+    <script type="text/javascript" src="js/showcaseData.js"></script>
+    <script type="text/javascript">
+      $(".signOut").click(
+      function(){
+        localStorage.clear();
+        window.location = "index.html";
+      })
+    </script>
+  </body>
+</html>

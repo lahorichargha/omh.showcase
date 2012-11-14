@@ -1,8 +1,21 @@
 if(!omh) var omh = {}
 
-omh.init = function(baseurl, requester){
-  omh.baseurl = baseurl
-  omh.requester = requester
+omh.set = function(key,value){
+  localStorage.setItem(key, value);
+}
+
+omh.get = function(key){
+  return localStorage.getItem(key);
+}
+
+omh.init = function(baseurl, requester, owner){
+  if(baseurl) omh.set("omh.baseurl", baseurl);
+  if(requester) omh.set("omh.requester", requester);
+  if(owner) omh.set("omh.owner", owner);
+  
+  omh.baseurl = omh.get("omh.baseurl");
+  omh.requester = omh.get("omh.requester");
+  omh.owner = omh.get("omh.owner");
 }
 
 omh.token = function(tok){
@@ -19,18 +32,27 @@ omh.username = function(tok){
 
 omh.initTest = function(){
   if(!omh.baseurl || !omh.requester){
-    alert("no baseurl or requester established. Did you call omh.init(baseurl, requester)")
+    window.location= "index.html";
     return false
   }
   return true
 }
 
+omh.addLoadingStep = function(){
+  $(".prog").append($("<div class='block undone'>"));
+}
+
+omh.completeLoadingStep = function(msg){
+  if(msg) $(".prog .label").text(msg);
+  var block = $(".prog .block").not(".done").first();
+  
+}
 
 //callback (optional) can be an object with success and failure functions  
 omh.authenticate = function(user, password, callback){
   if(!omh.initTest())return
   omh.username(user)
-  var url = omh.baseurl + '/omh/v1.0/authenticate'
+  var url = omh.baseurl + '/app/omh/v1.0/authenticate'
   $.post(url,{
     user:user,
     password:password,
@@ -52,32 +74,32 @@ omh.authenticate = function(user, password, callback){
   })
 }
 
-omh.read = function(payloadID, payloadVersion, optional){
+omh.read = function(params){
   if(!omh.initTest())return
-  var url = omh.baseurl + '/omh/v1.0/read'
-  if(!optional) optional = {}
-  optional.auth_token = omh.token()
-  optional.requester = omh.requester
-  optional.payload_id = payloadID
-  optional.payload_version = payloadVersion
+  var url = omh.baseurl + '/app/omh/v1.0/read'
+  if(!params || !params.payload_id || !params.payload_version) {
+    console.log("you must specify payload_id and payload_version")
+  }
+  params.auth_token = omh.token()
+  params.requester = omh.requester
   $.ajax({
     url: url,
-    data:optional,
+    data:params,
     type:'POST',
     success: function(res) {
-      if(optional.success)
-        optional.success(res)
+      if(params.success)
+        params.success(res)
     },
     failure:function(res){
       alert(res)
-      if(optional.failure)
-        optional.failure(res)
+      if(params.failure)
+        params.failure(res)
     }
   })
 }
 
 omh.logout = function(callback){
-  var url = omh.url + 'omh/v1.0/logout'
+  var url = omh.baseurl + "/app/omh/v1.0/logout";
   var params = {
     auth_token:omh.token(),
     client:omh.client
@@ -87,8 +109,7 @@ omh.logout = function(callback){
     data:params,
     type:'POST',
     success: function(res) {
-      localStorage.removeItem('omh.token')
-      localStorage.removeItem('omh.username')
+      localStorage.localStorage.clear()
       if(callback && callback.success) callback(res)
     }
   });
